@@ -1,4 +1,5 @@
-# update_all_forks
+# ![Update_All_Forks](pages/public/img/icon_192x192.png) Update_All_Forks
+
 Update all my Github Forks via a Python Script
 
 ## First you need to get your GitHub token 
