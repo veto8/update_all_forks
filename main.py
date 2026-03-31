@@ -3,6 +3,7 @@ import sys
 import requests
 import json
 import os
+import toml
 from github import Github
 from charset_normalizer import md__mypyc
 
@@ -61,13 +62,38 @@ def main(token):
             #    pass
 
 
+def read_config_file(filepath="config.toml"):
+    if os.path.exists(filepath):
+        print("...config.toml exists")
+        try:
+            with open(filepath, "r") as f:
+                config_data = toml.load(f)
+            return config_data
+        except toml.TomlDecodeError as e:
+            print(f"Error decoding TOML file: {e}")
+            return None
+    else:
+        print(f"Config file not found at: {filepath}")
+        return None
+
+
 if __name__ == "__main__":
-    if len(sys.argv) == 2:
+    config = read_config_file("config.toml")
+    token = ""
+    if config:
+        if "token" in config:
+            if "token" in config["token"]:
+                token = config["token"]["token"]
+
+    if len(sys.argv) == 2 and token == "":
         if sys.argv[1].startswith("--token="):
             a = sys.argv[1].split("=")
             token = a[1]
-            main(token)
-    else:
-        print("...missing token")
-        print("...example of usage:")
-        print("./main.py --token=ghp_2GcjnhBdwa9v4aoB4ABC123xsxDRBL84JaZDA")
+
+        else:
+            print("...missing token")
+            print("...example of usage:")
+            print("./main.py --token=ghp_2GcjnhBdwa9v4aoB4ABC123xsxDRBL84JaZDA")
+
+    if token != "":
+        main(token)
