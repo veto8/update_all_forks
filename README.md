@@ -36,6 +36,11 @@ pip install -r requirements.txt
 
 
 
+## Add Repository
+```
+git remote add codeberg ssh://git@codeberg.org/veto/update_all_forks.git
+git push codeberg
+```
 
 
 
